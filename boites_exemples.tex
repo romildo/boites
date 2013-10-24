@@ -1,63 +1,89 @@
-\documentclass[a4paper,12pt]{article}
-\usepackage[latin1]{inputenc}
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{boites,boites_exemples}
 \usepackage{graphicx,pstricks}
 \usepackage{multicol}
-
-\def\a{Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla. }
-\edef\a{\a\a\a\a\a\par}
-\def\b{\a\a\a\a}
-\def\test{\begin{breakbox} \b \end{breakbox}}
+\usepackage{lipsum}
 
 \begin{document}
 
+\title{Demonstration of the \texttt{boites} Package}
+\date{}
+\maketitle
+
+\subsubsection*{Using the \texttt{breakbox} environment and line counting}
+
 \bkcounttrue
 \begin{breakbox}
-  \begin{itemize} \item aaa \item bbb \end{itemize}
+  \begin{itemize}
+    \item \lipsum[1]
+    \item \lipsum[2]
+  \end{itemize}
 \end{breakbox}
 
-\begin{boiteepaisseavecuntitre}{ Coucou ! } \b
+\subsubsection*{Using the \texttt{boiteepaisseavecuntitre} environment}
+
+\begin{boiteepaisseavecuntitre}{ Coucou ! }
+  \lipsum[1-3]
 \end{boiteepaisseavecuntitre}
 
-\begin{boitenumeroteeavecunedoublebarre}{3.5} \b  
-\end{boitenumeroteeavecunedoublebarre}
+\subsubsection*{Using the \texttt{boitenumeroteeavecunedoublebarre} environment}
 
 \begin{boitenumeroteeavecunedoublebarre}{3.5}
-  \begin{itemize} \item aaa \item bbb \end{itemize}
+  \lipsum[1-3]
 \end{boitenumeroteeavecunedoublebarre}
 
-\begin{boiteavecunelignequiondulesurlecote} \b  
+\subsubsection*{Using the \texttt{boitenumeroteeavecunedoublebarre} environment}
+
+\begin{boitenumeroteeavecunedoublebarre}{3.5}
+  \begin{itemize}
+    \item \lipsum[1]
+    \item \lipsum[2]
+  \end{itemize}
+\end{boitenumeroteeavecunedoublebarre}
+
+\subsubsection*{Using the \texttt{boiteavecunelignequiondulesurlecote} environment}
+
+\begin{boiteavecunelignequiondulesurlecote}
+  \lipsum[1-3]
 \end{boiteavecunelignequiondulesurlecote}
 
+\subsubsection*{Using the \texttt{boitecoloriee} environment}
+
 \bkcounttrue
-\begin{boitecoloriee} \b  
+\begin{boitecoloriee}
+  \lipsum[1-3]
 \end{boitecoloriee}
+
+\subsubsection*{Using nested \texttt{boiteavecunelignequiondulesurlecote} environments}
 
 \bkcountfalse
 \begin{boiteavecunelignequiondulesurlecote} 
-  \a\bigskip
+  \lipsum[1]\bigskip
   \begin{boiteavecunelignequiondulesurlecote} 
-    \a\bigskip
+    \lipsum[2]\bigskip
     \begin{boiteavecunelignequiondulesurlecote} 
-      \a\bigskip
+      \lipsum[3]\bigskip
     \end{boiteavecunelignequiondulesurlecote}
-    \a
+    \lipsum[4]
   \end{boiteavecunelignequiondulesurlecote}
-  \a
+  \lipsum[5]
 \end{boiteavecunelignequiondulesurlecote}
+
+\subsubsection*{Using the \texttt{boiteavecunelignequiondulesurlecote} environment in multiple columns}
 
 \bkcountfalse
 \begin{multicols}{3}
-  \a
+  \lipsum[1]
   \begin{boiteavecunelignequiondulesurlecote} 
-    \a\a\a
+    \lipsum[2-4]
   \end{boiteavecunelignequiondulesurlecote}
-  \a
+  \lipsum[5]
   \begin{boiteavecunelignequiondulesurlecote} 
-    \a\a\a
+    \lipsum[6-8]
   \end{boiteavecunelignequiondulesurlecote}
-  \a\a\a\a\a
+  \lipsum[9-14]
 \end{multicols}
 
 \end{document}
