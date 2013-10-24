@@ -79,24 +79,35 @@
 \def\endboiteavecunelignequiondulesurlecote{\endbreakbox}
 
 %% Quatrième modification
-\RequirePackage{pstricks}
-\newgray{gris}{0.9}
+\RequirePackage{color}
+\newlength\bk@fboxsep
+\definecolor{gris}{gray}{0.9}
 \def\boitecoloriee{%
+  \bk@fboxsep\fboxsep
   \def\bkvz@before@breakbox{\ifhmode\par\fi\vskip\breakboxskip\relax}%
-  \def\bkvz@set@linewidth{\advance\linewidth -2\fboxrule 
-    \advance\linewidth -2\fboxsep} %
-  \def\bk@line{\hbox to \linewidth{%
+  \def\bkvz@set@linewidth{%
+    \advance\linewidth -2\fboxrule 
+    \advance\linewidth -2\fboxsep
+  }%
+  \def\bk@line{%
+    \hbox to \linewidth{%
       \ifbkcount\smash{\llap{\the\bk@lcnt\ }}\fi
-      \psframebox*[framesep=0pt,fillcolor=gris,linewidth=0pt]{%
-        \vrule\@width\fboxrule \hskip\fboxsep
-        \box\bk@bxa
-        \hskip\fboxsep \vrule\@width\fboxrule
-        }%
-      }}%
+      \vrule\@width\fboxrule
+      {\fboxsep\z@
+       \colorbox{gris}{%
+         \hskip\bk@fboxsep
+         \box\bk@bxa
+         \hskip\bk@fboxsep
+       }%
+      }%
+      \vrule\@width\fboxrule
+    }%
+  }%
   %\def\bkvz@top{\hrule\@height\fboxrule} 
   \def\bkvz@top{\hrule height .6pt}%%% Pourquoi faut-il ajouter 0.2pt ???
   \def\bkvz@bottom{\hrule\@height\fboxrule}%
-  \breakbox}
+  \breakbox
+}%
 \def\endboitecoloriee{\endbreakbox}
 
 
