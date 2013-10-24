@@ -10,6 +10,7 @@ ligne_qui_ondule_sur_la_gauche-eps-converted-to.pdf
 *.blg
 *.dvi
 *.fdb_latexmk
+*.fls
 *.glg
 *.glo
 *.gls
