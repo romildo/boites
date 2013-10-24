@@ -2,22 +2,22 @@
 Combined documentation (english and french):
 ============================================
 
-  pdflatex boites.dtx
+    pdflatex boites.dtx
 
 Single documentation 
 ====================
 
-  tex boites.dtx
+    tex boites.dtx
 
 English
 -------
 
-  pdflatex boites-en.drv
+    pdflatex boites-en.drv
 
 French
 -------
 
-  pdflatex boites-fr.drv
+    pdflatex boites-fr.drv
 
 
-                            RN / 2009-05-07
+RN / 2009-05-07
