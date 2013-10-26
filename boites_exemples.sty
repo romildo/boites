@@ -6,7 +6,7 @@
 \ProvidesPackage{boites_exemples}
 \RequirePackage{boites}
 
-%% Première modification
+%% PremiÃ¨re modification
 
 \def\boiteepaisseavecuntitre#1{%
   \def\thickhrulefill{\leavevmode \leaders \hrule height 1pt \hfill \kern \z@}%
@@ -17,7 +17,7 @@
   \def\bkvz@left{\vrule \@width\fboxrule\hskip\fboxsep}%
   \def\bkvz@right{\hskip\fboxsep\vrule \@width\fboxrule}%
   \def\bkvz@top{\hbox to \hsize{%
-      \vrule\@width\fboxrule\@height 1.2pt %%% D'où vient ce 0.2pt ????
+      \vrule\@width\fboxrule\@height 1.2pt %%% D'oÃ¹ vient ce 0.2pt ????
       \thickhrulefill{#1}\thickhrulefill
       \vrule\@width\fboxrule\@height 1.2pt}}%
   \def\bkvz@bottom{\hrule\@height\fboxrule}%
@@ -42,7 +42,7 @@
 }
 \def\endboitenumeroteeavecunedoublebarre{\endbreakbox}
 
-%% Troisième modification
+%% TroisiÃ¨me modification
   \newdimen\bk@hauteurcourrante
   \newdimen\bk@hauteursuivante
   \newdimen\bk@tempdim
@@ -78,7 +78,7 @@
   \breakbox}
 \def\endboiteavecunelignequiondulesurlecote{\endbreakbox}
 
-%% Quatrième modification
+%% QuatriÃ¨me modification
 \RequirePackage{color}
 \newlength\bk@fboxsep
 \definecolor{gris}{gray}{0.9}
