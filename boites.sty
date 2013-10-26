@@ -22,8 +22,8 @@
 % eclbkbox.sty by Hideki Isozaki, 1992
 % Date: May  28, 1993
 
-\ProvidesFile{boites.sty} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ProvidesPackage{boites} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ProvidesFile{boites.sty}
+\ProvidesPackage{boites}
 
 \newbox\bk@bxb
 \newbox\bk@bxa
@@ -36,34 +36,32 @@
 
 %% Paramètres modifiables
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\bkvz@before@breakbox{\ifhmode\par\fi\vskip\breakboxskip\relax} %%%
+\def\bkvz@before@breakbox{\ifhmode\par\fi\vskip\breakboxskip\relax}
 
 % Ce que l'on met à gauche du texte, par exemple, une ligne verticale
 % pour faire un cadre, ou une ligne qui ondule.
-\def\bkvz@left{\vrule \@width\fboxrule\hskip\fboxsep} %%%%%%%%%%%%%%%%%
+\def\bkvz@left{\vrule \@width\fboxrule\hskip\fboxsep}
 
 % De même, ce que l'on met à droite,
-\def\bkvz@right{\hskip\fboxsep\vrule \@width\fboxrule} %%%%%%%%%%%%%%%%
+\def\bkvz@right{\hskip\fboxsep\vrule \@width\fboxrule}
 
 % en haut
-\def\bkvz@top{\hrule\@height\fboxrule} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\bkvz@top{\hrule\@height\fboxrule}
 
 % ou en bas
-\def\bkvz@bottom{\hrule\@height\fboxrule} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\bkvz@bottom{\hrule\@height\fboxrule}
 
 % Si vous modifiez l'une de ces macros, il ne faut pas oublier de
 % modifier aussi la suivante, qui change la valeur de \linewidth en
 % lui retirant la largeur de tout ce que l'on vient de mettre sur le
 % côté. 
 \def\bkvz@set@linewidth{%
-  \advance\linewidth -2\fboxrule %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \advance\linewidth -2\fboxsep %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \advance\linewidth -2\fboxrule
+  \advance\linewidth -2\fboxsep
 }
 
 %% FIN DES PARAMÈTRES MODIFIABLES
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% Le début de l'environement
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -75,7 +73,7 @@
   \setbox\bk@bxb\vbox\bgroup
     % À l'intérieur de cette \vbox, on change la valeur de \hsize (et
     % aussi \linewidth).
-  \bkvz@set@linewidth %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \bkvz@set@linewidth
   \hsize\linewidth
     % je ne sais pas ce que fait la commande \@parboxrestore.
   \@parboxrestore
@@ -152,17 +150,17 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \def\bk@line{%
   \hbox to \linewidth{%
-    \ifdim\wd\bk@bxa>1mm %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \ifdim\wd\bk@bxa>1mm
       \ifbkcount\smash{\llap{\the\bk@lcnt\ }}\fi
-    \fi %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    \bkvz@left %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \fi
+    \bkvz@left
     \box\bk@bxa
       % Il arrive que la boite ne soit pas aussi large que la ligne
       % (par exemple, espace avant une énumération)
-    \hfil %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \hfil
     \bkvz@right
   }%
-} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+}
 
 %% La fin de l'environement
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -200,13 +198,13 @@
           % et la droite) et le bas.
         \bkvz@countlines
         \vbox{\bkvz@top\bk@line\bkvz@bottom}%
-      }% %%%%%%%%%%%%%%%%%%%%%%%%%%
+      }%
       % Soit, il y en a plusieurs.
     \else
       \def\bk@fstln{%
           % On met le haut
         \bkvz@countlines
-        \vbox{\bkvz@top\bk@line}% %%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \vbox{\bkvz@top\bk@line}%
           % ??? (Si on l'enlève, ça ne marche plus.)
         \hfil
           % On commence à compter les lignes
@@ -230,7 +228,7 @@
               % En envoie la dernière ligne.
               % POURQUOI \vtop ??? Pour que l'éventuel numéro de ligne soit à la
               % bonne hauteur.
-            \vtop{\bk@line\bkvz@bottom}% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            \vtop{\bk@line\bkvz@bottom}%
           \else               % 2,...,(n-1)
             \bk@line
           \fi
