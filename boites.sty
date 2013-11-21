@@ -197,14 +197,14 @@
           % On construit la boite : le haut, le milieu (qui contient la gauche
           % et la droite) et le bas.
         \bkvz@countlines
-        \vbox{\bkvz@top\bk@line\bkvz@bottom}%
+        \vbox{\bk@singleline}%
       }%
       % Soit, il y en a plusieurs.
     \else
       \def\bk@fstln{%
           % On met le haut
         \bkvz@countlines
-        \vbox{\bkvz@top\bk@line}%
+        \vbox{\bk@firstline}%
           % ??? (Si on l'enlève, ça ne marche plus.)
         \hfil
           % On commence à compter les lignes
@@ -228,9 +228,9 @@
               % En envoie la dernière ligne.
               % POURQUOI \vtop ??? Pour que l'éventuel numéro de ligne soit à la
               % bonne hauteur.
-            \vtop{\bk@line\bkvz@bottom}%
+            \vtop{\bk@lastline}%
           \else               % 2,...,(n-1)
-            \bk@line
+            \bk@middleline
           \fi
           \hfil
           %\advance\bk@lcnt\@ne %%%%%%%%%%%%%%%% Voir \bkvz@countlines
@@ -244,3 +244,22 @@
 
 \bkcountfalse
 
+\def\bk@singleline{%
+  \bkvz@top
+  \bk@line
+  \bkvz@bottom
+}
+
+\def\bk@firstline{%
+  \bkvz@top
+  \bk@line
+}
+
+\def\bk@middleline{%
+  \bk@line
+}
+
+\def\bk@lastline{%
+  \bk@line
+  \bkvz@bottom
+}
