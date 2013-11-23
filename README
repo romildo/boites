@@ -74,12 +74,18 @@ Features
 History
 -------
 
- * 1992: original macros (eclbkbox.sty) by Hideki Isozaki
- * 1998: a few modifications to make the macros more configurable,
-         more comments and inclusion of some examples (Vincent Zoonekynd)
- * 2013: new maintainer (José Romildo Malaquias),
-         use markdown in basic documentation files,
-         use lipsum in the examples file,
-         better layout of source code,
-         recoded files to utf8,
-         some small fixes
+ * 1992
+   - original macros (eclbkbox.sty) by Hideki Isozaki
+
+ * 1998
+   - a few modifications to make the macros more configurable
+   - more comments and inclusion of some examples (Vincent Zoonekynd)
+
+ * 2013-10-22
+   - v1.1
+   - new maintainer (José Romildo Malaquias)
+   - use markdown in basic documentation files
+   - use lipsum in the examples file
+   - better layout of source code
+   - recoded files to utf8
+   - some small fixes
