@@ -101,8 +101,9 @@
       \begin{tikzpicture}
         \node[name=s,alias=t,boite@txt]{\vbox{\vskip\boite@boxsep\box\bk@bxa\vskip\boite@boxsep}};
         \ifdefined\boite@title
-          \node[name=t,text=\boite@coltitle,fill=\boite@colbacktitle,anchor=south west] at ($(s.north west)+(0,\boite@titlerule)$) {
-            \vbox{\vskip\boite@boxsep \box\bk@bxc \vskip\boite@boxsep}};
+          \node[name=t,boite@txt,text=\boite@coltitle,fill=\boite@colbacktitle,anchor=south west]
+            at ($(s.north west)+(0,\boite@titlerule)$)
+            {\vbox{\vskip\boite@boxsep \box\bk@bxc \vskip\boite@boxsep}};
           \path[fill=\boite@colframe] ($(t.south west)-(0,\boite@titlerule)$) rectangle (t.south east);
         \fi
       \end{tikzpicture}%
