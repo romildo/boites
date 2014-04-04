@@ -1,0 +1,205 @@
+\ProvidesFile{boiteenv.sty}
+\ProvidesPackage{boiteenv}[2014/04/04 v0.1 Customizable boite environment]
+
+\RequirePackage{pgfkeys}
+\RequirePackage{tikz}
+
+\usetikzlibrary{calc}
+
+\tikzset{
+  boite@txt/.style = {
+    shape      = rectangle,
+    text       = \boite@coltext,
+    fill       = \boite@colback,
+    line width = 0mm,
+    inner xsep = \boite@boxsep,
+    inner ysep = 0pt,
+    outer sep  = 0mm,
+  }
+}%
+
+\newbox\bk@bxc
+
+\def\boitedimto#1#2{\edef#1{\the\dimexpr#2\relax}}
+
+\def\boite@comp@outer@arc{%
+  \let\boite@outer@arc=\boite@toprule%
+  \ifdim\boite@bottomrule<\boite@outer@arc\relax%
+    \let\boite@outer@arc=\boite@bottomrule\fi%
+  \ifdim\boite@leftrule<\boite@outer@arc\relax%
+    \let\boite@outer@arc=\boite@leftrule\fi%
+  \ifdim\boite@rightrule<\boite@outer@arc\relax%
+    \let\boite@outer@arc=\boite@rightrule\fi%
+  \boitedimto\boite@outer@arc{\boite@outer@arc+\boite@arc}%
+}
+
+\pgfkeys{
+  /boite/.cd,
+  title/.store in        = \boite@title,
+  toprule/.store in      = \boite@toprule,
+  bottomrule/.store in   = \boite@bottomrule,
+  leftrule/.store in     = \boite@leftrule,
+  rightrule/.store in    = \boite@rightrule,
+  titlerule/.store in    = \boite@titlerule,
+  boxrule/.code          = {\def\boite@boxrule{#1}\def\boite@toprule{#1}\def\boite@bottomrule{#1}\def\boite@leftrule{#1}\def\boite@rightrule{#1}\def\boite@titlerule{#1}},
+  arc/.store in          = \boite@arc,
+  boxsep/.store in       = \boite@boxsep,
+  colframe/.store in     = \boite@colframe,
+  colback/.store in      = \boite@colback,
+  colbacktitle/.store in = \boite@colbacktitle,
+  coltext/.store in      = \boite@coltext,
+  coltitle/.store in     = \boite@coltitle,
+  coltitle/.store in     = \boite@coltitle,
+  font/.store in         = \boite@font,
+  fonttitle/.store in    = \boite@fonttitle,
+  % Embedding into the Surroundings
+  before/.code           = {\def\boite@before{#1}},
+  after/.code            = {\def\boite@after{#1}},
+  nobeforeafter/.style   = {before=,after=},
+}
+
+\pgfqkeys{/boite}{
+  toprule      = 0.5mm,
+  bottomrule   = 0.5mm,
+  leftrule     = 0.5mm,
+  rightrule    = 0.5mm,
+  titlerule    = 0.5mm,
+  boxrule      = 0.5mm,
+  arc          = 1mm,
+  boxsep       = 1mm,
+  font         = ,
+  fonttitle    = ,
+  colframe     = black!75!white,
+  colback      = black!40!white,
+  colbacktitle = black!50!white,
+  coltext      = black,
+  coltitle     = white,
+  before       = {\ifhmode\par\fi\noindent},
+  after        = {\ifhmode\par\fi},
+}
+
+\newenvironment{boite}[1][]{%
+  \pgfqkeys{/boite}{#1}%
+  %
+  \def\bk@addfsepht{}%
+  \def\bk@addfsepdp{}%
+  %
+  \boite@comp@outer@arc
+  %
+  \def\bkvz@set@linewidth{%
+    \dimen@ \boite@leftrule
+    \advance\linewidth -\dimen@
+    \dimen@ \boite@rightrule
+    \advance\linewidth -\dimen@
+    \advance\linewidth -\boite@boxsep
+    \advance\linewidth -\boite@boxsep
+  }%
+  %
+  \def\bk@singleline{%
+    \noindent
+    \setbox \bk@bxa \hbox{%
+      \begin{tikzpicture}
+        \node[name=s,alias=t,boite@txt]{\vbox{\vskip\boite@boxsep\box\bk@bxa\vskip\boite@boxsep}};
+        \ifdefined\boite@title
+          \node[name=t,text=\boite@coltitle,fill=\boite@colbacktitle,anchor=south west] at ($(s.north west)+(0,\boite@titlerule)$) {
+            \vbox{\vskip\boite@boxsep \box\bk@bxc \vskip\boite@boxsep}};
+          \path[fill=\boite@colframe] ($(t.south west)-(0,\boite@titlerule)$) rectangle (t.south east);
+        \fi
+      \end{tikzpicture}%
+    }%
+    \begin{tikzpicture}%
+      \clip [rounded corners=\boite@outer@arc]
+        ($(s.south west)-(\boite@leftrule,\boite@bottomrule)$) rectangle ($(t.north east)+(\boite@rightrule,\boite@toprule)$);
+      \node[name=u,inner sep=0pt,outer sep=0pt,anchor=north] at (t.north)
+        {\box\bk@bxa};
+      \path[fill=\boite@colframe,even odd rule]
+        [rounded corners=\boite@arc]
+          (u.south west) rectangle (u.north east)
+        [rounded corners=\boite@outer@arc]
+          ($(u.south west)-(\boite@leftrule,\boite@bottomrule)$) rectangle ($(u.north east)+(\boite@rightrule,\boite@toprule)$)
+          ;
+    \end{tikzpicture}%
+  }%
+  \def\bk@firstline{%
+    \noindent
+    \setbox \bk@bxa \hbox{%
+      \begin{tikzpicture}%
+        \node[name=s,alias=t,boite@txt]{\vbox{\vskip\boite@boxsep\box\bk@bxa}};
+        \ifdefined\boite@title
+          \node[name=t,boite@txt,text=\boite@coltitle,fill=\boite@colbacktitle,anchor=south west]
+            at ($(s.north west)+(0,\boite@titlerule)$)
+            {\vbox{\vskip\boite@boxsep \box\bk@bxc \vskip\boite@boxsep}};
+          \path[fill=\boite@colframe,sharp corners]
+            ($(t.south west)-(0,\boite@titlerule)$) rectangle (t.south east);
+        \else
+        \fi
+      \end{tikzpicture}%
+    }%
+    \begin{tikzpicture}%
+      \clip
+        [rounded corners=\boite@outer@arc]
+          ($(s.south west)-(\boite@leftrule,0)$) |-
+          ($(t.north east)+(\boite@rightrule,\boite@toprule)$)
+        [sharp corners] |-
+          ($(s.south west)-(\boite@leftrule,0)$);
+      \node[name=u,inner sep=0pt,outer sep=0pt,anchor=north] at (t.north)
+        {\box\bk@bxa};
+      \path[fill=\boite@colframe]
+        [rounded corners=\boite@arc]
+          (u.south west) |- (u.north east)
+        [sharp corners] |-
+          ($(u.south east)+(\boite@rightrule,0)$)
+        [rounded corners=\boite@outer@arc] |-
+          ($(u.north west)+(-\boite@leftrule,\boite@toprule)$)
+        [sharp corners] |-
+          (u.south west);
+    \end{tikzpicture}%
+  }%
+  \def\bk@middleline{%
+    \hbox to \linewidth{%
+      \begin{tikzpicture}%
+        \node[name=s,boite@txt]{\box\bk@bxa};%
+        \path[fill=\boite@colframe]%
+          ($(s.south west)-(\boite@leftrule,0)$) rectangle (s.north west)%
+          ($(s.south east)+(\boite@rightrule,0)$) rectangle (s.north east);%
+      \end{tikzpicture}%
+    }%
+  }%
+  \def\bk@lastline{%
+    \noindent
+    \setbox \bk@bxa \hbox{%
+      \tikz{\node[name=s,alias=u,boite@txt]{\vbox{\box\bk@bxa\vskip\boite@boxsep}};}%
+    }%
+    \begin{tikzpicture}%
+      \clip
+        [rounded corners=\boite@outer@arc]
+          ($(s.north west)-(\boite@leftrule,0pt)$) |-
+          ($(s.south east)+(\boite@rightrule,-\boite@bottomrule)$)
+        [sharp corners] |-
+          ($(s.north west)-(\boite@leftrule,0pt)$);
+      \node[name=u,inner sep=0pt,outer sep=0pt,anchor=south] at (s.south)
+        {\box\bk@bxa};
+'     \path[fill=\boite@colframe]
+        [rounded corners=\boite@arc]
+          (u.north west) |- (u.south east)
+        [sharp corners]
+          |- ($(u.north east)+(\boite@rightrule,0)$)
+        [rounded corners=\boite@outer@arc]
+          |- ($(u.south west)-(\boite@leftrule,\boite@bottomrule)$)
+        [sharp corners]
+          |- (u.north west);
+    \end{tikzpicture}%
+  }%
+  %
+  \ifdefined \boite@title
+    \setbox\bk@bxc \vbox{%
+        \bkvz@set@linewidth
+        \hsize\linewidth
+        \boite@fonttitle \boite@title
+      }%
+  \fi
+  \boite@font
+  \breakbox
+}{%
+  \endbreakbox
+}%
