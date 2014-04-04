@@ -1,0 +1,194 @@
+\documentclass[a4paper,10pt,english]{article}
+%\usepackage[margin=30mm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{babel}
+\usepackage{boites}
+\usepackage{boiteenv}
+%\usepackage{multicol}
+\usepackage{lipsum}
+\usepackage[pangram,random]{blindtext}
+\usepackage{fvrb-ex}
+
+\fvset{frame=lines,framerule=2pt,numbers=left}
+
+\begin{document}
+
+\title{Demonstration of the \texttt{boites} Package\\Second part}
+\author{}
+\date{}
+\maketitle
+
+% \begin{boitecoloriee}
+%   \lipsum[1]
+%   \begin{boitecoloriee}
+%     \lipsum[2]
+%     \begin{boitecoloriee}
+%       \lipsum[13]
+%     \end{boitecoloriee}
+%     \lipsum[12]
+%   \end{boitecoloriee}
+%   \lipsum[3]
+% \end{boitecoloriee}
+
+\section{Using the \texttt{boite} environment}
+
+\begin{Example}
+  \begin{boite}
+    A single line.
+  \end{boite}
+\end{Example}
+
+\begin{Example}
+  \begin{boite}[boxrule=3pt,arc=3em,colframe=blue!80,colback=red!44]
+    \Huge \noindent \rule{10mm}{3em} This is one single line.
+  \end{boite}
+\end{Example}
+
+\begin{Example}
+  \begin{boite}[title=My title]
+    This is one single line with a title.
+  \end{boite}
+\end{Example}
+
+\begin{Example}
+  \begin{boite}
+    \Blindtext[2][4]
+  \end{boite}
+\end{Example}
+
+\begin{Example}
+  \begin{boite}[title=My heading line A]
+    \lipsum[66]
+  \end{boite}
+\end{Example}
+
+\begin{Example}
+  \begin{boite}[boxrule=.1pt,title=My heading line B]
+    \lipsum[66]
+  \end{boite}
+\end{Example}
+
+\begin{Example}
+  \begin{boite}[boxrule=5mm,title=My heading line C]
+    \lipsum[66]
+  \end{boite}
+\end{Example}
+
+\begin{Example}
+  \begin{boite}[colframe=red!50!white,title=My heading line]
+    \lipsum[66]
+  \end{boite}
+\end{Example}
+
+\begin{Example}
+  \begin{boite}[colback=red!50!white,title=My heading line]
+    \lipsum[66]
+  \end{boite}
+\end{Example}
+
+\begin{Example}
+  \begin{boite}[coltext=red!75!black,title=My heading line]
+    \lipsum[66]
+  \end{boite}
+\end{Example}
+
+\begin{Example}
+  \begin{boite}[coltitle=red!75!black,title=My heading line]
+    \lipsum[66]
+  \end{boite}
+\end{Example}
+
+\begin{Example}
+  \begin{boite}[font=\sffamily\bfseries,
+    title=My heading line which is somewhat bigger
+            and would not fit in a single line!]
+    \lipsum[66]
+  \end{boite}
+\end{Example}
+
+\begin{Example}
+  \begin{boite}[fonttitle=\scshape\bfseries\large,
+    title=My heading line which is somewhat bigger
+            and would not fit in a single line!]
+    \lipsum[66]
+  \end{boite}
+\end{Example}
+
+\begin{Example}
+  \begin{boite}[boxsep=1cm,title=A different inner margin]
+    \lipsum[66]
+  \end{boite}
+\end{Example}
+
+\begin{Example}
+  \begin{boite}[toprule=3mm,title=My heading line]
+    \lipsum[66]
+  \end{boite}
+\end{Example}
+
+\begin{Example}
+  \begin{boite}[bottomrule=3mm,title=My heading line]
+    \lipsum[66]
+  \end{boite}
+\end{Example}
+
+\begin{Example}
+  \begin{boite}[leftrule=3mm,title=My heading line]
+    \lipsum[66]
+  \end{boite}
+\end{Example}
+
+\begin{Example}
+  \begin{boite}[rightrule=3mm,title=My heading line]
+    \lipsum[66]
+  \end{boite}
+\end{Example}
+
+\begin{Example}
+  \begin{boite}[titlerule=3mm,title=My heading line]
+    \lipsum[66]
+  \end{boite}
+\end{Example}
+
+\begin{Example}
+  \begin{boite}[boxrule=.1pt,arc=1.5mm,title=My heading line]
+    \lipsum[66]
+  \end{boite}
+\end{Example}
+
+\begin{Example}
+  \begin{boite}[boxrule=8pt,arc=4mm,title=My heading line]
+    \lipsum[66]
+  \end{boite}
+\end{Example}
+
+\begin{Example}
+  \begin{boite}[boxrule=.2pt,arc=4mm,title=My heading line]
+    \lipsum[66]
+  \end{boite}
+\end{Example}
+
+\begin{Example}
+  \begin{boite}[colback=blue!60,title=Level 1]
+    \lipsum[66]
+    \begin{boite}[colback=white,boxrule=4pt,title=Level 2]
+      \lipsum[67]
+      \begin{boite}[coltext=red,colback=yellow!40,title=Level 3a]
+        \lipsum[68]
+      \end{boite}
+      \lipsum[69]
+      \begin{boite}[coltext=red,colback=white,title=Level 3b]
+        \lipsum[70]
+      \end{boite}
+      \lipsum[71]
+      \begin{boite}[coltext=red,colback=black,title=Level 3c]
+        \lipsum[72]
+      \end{boite}
+      \lipsum[73]
+    \end{boite}
+    \lipsum[74]
+  \end{boite}
+\end{Example}
+
+\end{document}
