@@ -36,6 +36,8 @@
 \pgfkeys{
   /boite/.cd,
   title/.store in        = \boite@title,
+  leftmargin/.store in   = \boite@leftmargin,
+  rightmargin/.store in  = \boite@rightmargin,
   toprule/.store in      = \boite@toprule,
   bottomrule/.store in   = \boite@bottomrule,
   leftrule/.store in     = \boite@leftrule,
@@ -59,6 +61,8 @@
 }
 
 \pgfqkeys{/boite}{
+  leftmargin   = 0pt,
+  rightmargin  = 0pt,
   toprule      = 0.5mm,
   bottomrule   = 0.5mm,
   leftrule     = 0.5mm,
@@ -93,6 +97,8 @@
     \advance\linewidth -\dimen@
     \advance\linewidth -\boite@boxsep
     \advance\linewidth -\boite@boxsep
+    \advance\linewidth -\boite@leftmargin
+    \advance\linewidth -\boite@rightmargin
   }%
   %
   \def\bk@singleline{%
@@ -108,6 +114,7 @@
         \fi
       \end{tikzpicture}%
     }%
+    \hskip\boite@leftmargin
     \begin{tikzpicture}%
       \clip [rounded corners=\boite@outer@arc]
         ($(s.south west)-(\boite@leftrule,\boite@bottomrule)$) rectangle ($(t.north east)+(\boite@rightrule,\boite@toprule)$);
@@ -120,6 +127,7 @@
           ($(u.south west)-(\boite@leftrule,\boite@bottomrule)$) rectangle ($(u.north east)+(\boite@rightrule,\boite@toprule)$)
           ;
     \end{tikzpicture}%
+    \hskip\boite@rightmargin
   }%
   \def\bk@firstline{%
     \noindent
@@ -136,6 +144,7 @@
         \fi
       \end{tikzpicture}%
     }%
+    \hskip\boite@leftmargin
     \begin{tikzpicture}%
       \clip
         [rounded corners=\boite@outer@arc]
@@ -155,15 +164,18 @@
         [sharp corners] |-
           (u.south west);
     \end{tikzpicture}%
+    \hskip\boite@rightmargin
   }%
   \def\bk@middleline{%
     \hbox to \linewidth{%
+      \hskip\boite@leftmargin
       \begin{tikzpicture}%
         \node[name=s,boite@txt]{\box\bk@bxa};%
         \path[fill=\boite@colframe]%
           ($(s.south west)-(\boite@leftrule,0)$) rectangle (s.north west)%
           ($(s.south east)+(\boite@rightrule,0)$) rectangle (s.north east);%
       \end{tikzpicture}%
+      \hskip\boite@rightmargin
     }%
   }%
   \def\bk@lastline{%
@@ -171,6 +183,7 @@
     \setbox \bk@bxa \hbox{%
       \tikz{\node[name=s,alias=u,boite@txt]{\vbox{\box\bk@bxa\vskip\boite@boxsep}};}%
     }%
+    \hskip\boite@leftmargin
     \begin{tikzpicture}%
       \clip
         [rounded corners=\boite@outer@arc]
@@ -190,6 +203,7 @@
         [sharp corners]
           |- (u.north west);
     \end{tikzpicture}%
+    \hskip\boite@rightmargin
   }%
   %
   \ifdefined \boite@title
