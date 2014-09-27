@@ -82,7 +82,7 @@
 \RequirePackage{color}
 \newlength\bk@fboxsep
 \definecolor{gris}{gray}{0.9}
-\newenvironment{boitecoloriee}{%
+\newenvironment{boitecoloriee}[1][gris]{%
   \bk@fboxsep\fboxsep
   \def\bkvz@before@breakbox{\ifhmode\par\fi\vskip\breakboxskip\relax}%
   \def\bkvz@set@linewidth{%
@@ -94,7 +94,7 @@
       \ifbkcount\smash{\llap{\the\bk@lcnt\ }}\fi
       \vrule\@width\fboxrule
       {\fboxsep\z@
-       \colorbox{gris}{%
+       \colorbox{#1}{%
          \hskip\bk@fboxsep
          \box\bk@bxa
          \hskip\bk@fboxsep
