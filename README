@@ -91,5 +91,5 @@ History
    - some small fixes
 
  * 2014-09-27
-   - new options for left and right margin
-
+   - new options for left and right margin in the boite environment
+   - add optional argument to boite_coloriee environment for the background color
