@@ -82,7 +82,7 @@
 \RequirePackage{color}
 \newlength\bk@fboxsep
 \definecolor{gris}{gray}{0.9}
-\def\boitecoloriee{%
+\newenvironment{boitecoloriee}{%
   \bk@fboxsep\fboxsep
   \def\bkvz@before@breakbox{\ifhmode\par\fi\vskip\breakboxskip\relax}%
   \def\bkvz@set@linewidth{%
@@ -107,8 +107,9 @@
   \def\bkvz@top{\hrule height .6pt}%%% Pourquoi faut-il ajouter 0.2pt ???
   \def\bkvz@bottom{\hrule\@height\fboxrule}%
   \breakbox
-}%
-\def\endboitecoloriee{\endbreakbox}
+}{%
+  \endbreakbox
+}
 
 
 \endinput
