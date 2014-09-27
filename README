@@ -89,3 +89,7 @@ History
    - better layout of source code
    - recoded files to utf8
    - some small fixes
+
+ * 2014-09-27
+   - new options for left and right margin
+
