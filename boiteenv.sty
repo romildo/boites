@@ -1,5 +1,5 @@
 \ProvidesFile{boiteenv.sty}
-\ProvidesPackage{boiteenv}[2014/04/04 v0.1 Customizable boite environment]
+\ProvidesPackage{boiteenv}[2014/10/04 v0.1 Customizable boite environment]
 
 \RequirePackage{pgfkeys}
 \RequirePackage{tikz}
@@ -51,7 +51,6 @@
   colbacktitle/.store in = \boite@colbacktitle,
   coltext/.store in      = \boite@coltext,
   coltitle/.store in     = \boite@coltitle,
-  coltitle/.store in     = \boite@coltitle,
   font/.store in         = \boite@font,
   fonttitle/.store in    = \boite@fonttitle,
   % Embedding into the Surroundings
@@ -82,6 +81,11 @@
   after        = {\ifhmode\par\fi},
 }
 
+
+\newlength\w@bxa
+\newlength\h@bxa
+\newlength\d@bxa
+
 \newenvironment{boite}[1][]{%
   \pgfqkeys{/boite}{#1}%
   %
@@ -103,115 +107,198 @@
   %
   \def\bk@singleline{%
     \noindent
-    \setbox \bk@bxa \hbox{%
-      \begin{tikzpicture}
-        \node[name=s,alias=t,boite@txt]{\vbox{\vskip\boite@boxsep\box\bk@bxa\vskip\boite@boxsep}};
-        \ifdefined\boite@title
-          \node[name=t,boite@txt,text=\boite@coltitle,fill=\boite@colbacktitle,anchor=south west]
-            at ($(s.north west)+(0,\boite@titlerule)$)
-            {\vbox{\vskip\boite@boxsep \box\bk@bxc \vskip\boite@boxsep}};
-          \path[fill=\boite@colframe] ($(t.south west)-(0,\boite@titlerule)$) rectangle (t.south east);
-        \fi
-      \end{tikzpicture}%
-    }%
     \hskip\boite@leftmargin
-    \begin{tikzpicture}%
-      \clip [rounded corners=\boite@outer@arc]
-        ($(s.south west)-(\boite@leftrule,\boite@bottomrule)$) rectangle ($(t.north east)+(\boite@rightrule,\boite@toprule)$);
-      \node[name=u,inner sep=0pt,outer sep=0pt,anchor=north] at (t.north)
-        {\box\bk@bxa};
-      \path[fill=\boite@colframe,even odd rule]
-        [rounded corners=\boite@arc]
-          (u.south west) rectangle (u.north east)
-        [rounded corners=\boite@outer@arc]
-          ($(u.south west)-(\boite@leftrule,\boite@bottomrule)$) rectangle ($(u.north east)+(\boite@rightrule,\boite@toprule)$)
-          ;
-    \end{tikzpicture}%
+    \begin{pgfpicture}%
+      \pgfsetcornersarced{\pgfpoint{\boite@arc}{\boite@arc}}
+      \pgfpathrectangle
+        {\pgfpointorigin}
+        {\pgfpoint
+          {\wd\bk@bxa+2*\boite@boxsep}
+          {\ht\bk@bxa+2*\boite@boxsep+\dp\bk@bxa+\ht\bk@bxc+\dp\bk@bxc}}
+      \pgfsetcornersarced{\pgfpoint{\boite@outer@arc}{\boite@outer@arc}}
+      \pgfpathrectanglecorners
+        {\pgfpoint{-\boite@leftrule}{-\boite@bottomrule}}
+        {\pgfpoint
+          {\wd\bk@bxa+2*\boite@boxsep+\boite@rightrule}
+          {\ht\bk@bxa+2*\boite@boxsep+\dp\bk@bxa+\ht\bk@bxc+\dp\bk@bxc+\boite@toprule}}
+      \pgfsetfillcolor{\boite@colframe}
+      \pgfseteorule
+      \pgfusepath{fill}
+      % 
+      \pgfsetcornersarced{\pgfpoint{\boite@arc}{\boite@arc}}
+      \pgfpathrectangle
+        {\pgfpointorigin}
+        {\pgfpoint
+          {\wd\bk@bxa+2*\boite@boxsep}
+          {\ht\bk@bxa+2*\boite@boxsep+\dp\bk@bxa+\ht\bk@bxc+\dp\bk@bxc}}
+      \pgfusepath{clip}
+      % 
+      \pgfsetcornersarced{\pgfpointorigin}
+      \pgfset{inner sep=\boite@boxsep,outer sep=0pt}
+      \pgfsetfillcolor{\boite@colback}
+      \pgfnode
+        {rectangle}
+        {south west}
+        {\color{\boite@coltext}{\box\bk@bxa}}
+        {x}
+        {\pgfusepath{fill}}
+      % 
+      \pgfset{inner sep=0pt,outer sep=0pt}
+      \pgfsetfillcolor{\boite@colbacktitle}
+      \pgftransformshift{\pgfpointanchor{x}{north west}}
+      \pgfnode{rectangle}{south west}{\box\bk@bxc}{}{\pgfusepath{fill}}
+    \end{pgfpicture}%
     \hskip\boite@rightmargin
   }%
+  % 
   \def\bk@firstline{%
-    \noindent
-    \setbox \bk@bxa \hbox{%
-      \begin{tikzpicture}%
-        \node[name=s,alias=t,boite@txt]{\vbox{\vskip\boite@boxsep\box\bk@bxa}};
-        \ifdefined\boite@title
-          \node[name=t,boite@txt,text=\boite@coltitle,fill=\boite@colbacktitle,anchor=south west]
-            at ($(s.north west)+(0,\boite@titlerule)$)
-            {\vbox{\vskip\boite@boxsep \box\bk@bxc \vskip\boite@boxsep}};
-          \path[fill=\boite@colframe,sharp corners]
-            ($(t.south west)-(0,\boite@titlerule)$) rectangle (t.south east);
-        \else
-        \fi
-      \end{tikzpicture}%
-    }%
-    \hskip\boite@leftmargin
-    \begin{tikzpicture}%
-      \clip
-        [rounded corners=\boite@outer@arc]
-          ($(s.south west)-(\boite@leftrule,0)$) |-
-          ($(t.north east)+(\boite@rightrule,\boite@toprule)$)
-        [sharp corners] |-
-          ($(s.south west)-(\boite@leftrule,0)$);
-      \node[name=u,inner sep=0pt,outer sep=0pt,anchor=north] at (t.north)
-        {\box\bk@bxa};
-      \path[fill=\boite@colframe]
-        [rounded corners=\boite@arc]
-          (u.south west) |- (u.north east)
-        [sharp corners] |-
-          ($(u.south east)+(\boite@rightrule,0)$)
-        [rounded corners=\boite@outer@arc] |-
-          ($(u.north west)+(-\boite@leftrule,\boite@toprule)$)
-        [sharp corners] |-
-          (u.south west);
-    \end{tikzpicture}%
-    \hskip\boite@rightmargin
-  }%
-  \def\bk@middleline{%
+    \w@bxa \wd\bk@bxa
+    \advance\w@bxa \boite@boxsep \advance\w@bxa \boite@boxsep
+    \h@bxa \ht\bk@bxa \advance\h@bxa \dp\bk@bxa
+    \advance\h@bxa \ht\bk@bxc \advance\h@bxa \dp\bk@bxc
+    \advance\h@bxa \boite@boxsep
     \hbox to \linewidth{%
       \hskip\boite@leftmargin
-      \begin{tikzpicture}%
-        \node[name=s,boite@txt]{\box\bk@bxa};%
-        \path[fill=\boite@colframe]%
-          ($(s.south west)-(\boite@leftrule,0)$) rectangle (s.north west)%
-          ($(s.south east)+(\boite@rightrule,0)$) rectangle (s.north east);%
-      \end{tikzpicture}%
+      \begin{pgfpicture}%
+        \pgfsetcornersarced{\pgfpoint{\boite@outer@arc}{\boite@outer@arc}}
+        \pgfpathmoveto{\pgfpoint{-\boite@leftrule}{0pt}}
+        \pgfpathlineto{\pgfpoint{-\boite@leftrule}{\h@bxa+\boite@toprule}}
+        \pgfpathlineto{\pgfpoint{\w@bxa+\boite@rightrule}{\h@bxa+\boite@toprule}}
+        \pgfsetcornersarced{\pgfpointorigin}
+        \pgfpathlineto{\pgfpoint{\w@bxa+\boite@rightrule}{0pt}}
+        \pgfpathlineto{\pgfpoint{\w@bxa}{0pt}}
+        \pgfsetcornersarced{\pgfpoint{\boite@arc}{\boite@arc}}
+        \pgfpathlineto{\pgfpoint{\w@bxa}{\h@bxa}}
+        \pgfpathlineto{\pgfpoint{0pt}{\h@bxa}}
+        \pgfsetcornersarced{\pgfpointorigin}
+        \pgfpathlineto{\pgfpoint{0pt}{0pt}}
+        \pgfpathclose
+        \pgfsetfillcolor{\boite@colframe}
+        \pgfusepath{fill}
+        % 
+        \pgfsetcornersarced{\pgfpoint{\boite@arc}{\boite@arc}}
+        \pgfpathmoveto{\pgfpointorigin}
+        \pgfpathlineto{\pgfpoint{0pt}{\h@bxa}}
+        \pgfpathlineto{\pgfpoint{\w@bxa}{\h@bxa}}
+        \pgfsetcornersarced{\pgfpointorigin}
+        \pgfpathlineto{\pgfpoint{\w@bxa}{0pt}}
+        \pgfpathclose
+        \pgfusepath{clip}
+        % 
+        \pgfset{inner xsep=\boite@boxsep,inner ysep=0pt,outer sep=0pt}
+        \pgfsetfillcolor{\boite@colback}
+        \pgfnode
+          {rectangle}
+          {south west}
+          {\color{\boite@coltext}{\vbox{\vskip\boite@boxsep\box\bk@bxa}}}
+          {x}
+          {\pgfusepath{fill}}
+        % 
+        \pgfset{inner xsep=0pt,inner ysep=0pt,outer sep=0pt}
+        \pgfsetfillcolor{\boite@colbacktitle}
+        \pgftransformshift{\pgfpointanchor{x}{north west}}
+        \pgfnode{rectangle}{south west}{\box\bk@bxc}{}{\pgfusepath{fill}}
+      \end{pgfpicture}%
       \hskip\boite@rightmargin
     }%
   }%
-  \def\bk@lastline{%
-    \noindent
-    \setbox \bk@bxa \hbox{%
-      \tikz{\node[name=s,alias=u,boite@txt]{\vbox{\box\bk@bxa\vskip\boite@boxsep}};}%
+  % 
+  \def\bk@middleline{%
+    \setbox\bk@bxa \hbox{%
+      \fboxsep\z@
+      \colorbox{\boite@colback}{%
+        \hskip\boite@boxsep
+        \color{\boite@coltext}{\box\bk@bxa}%
+        \hskip\boite@boxsep
+      }%
     }%
-    \hskip\boite@leftmargin
-    \begin{tikzpicture}%
-      \clip
-        [rounded corners=\boite@outer@arc]
-          ($(s.north west)-(\boite@leftrule,0pt)$) |-
-          ($(s.south east)+(\boite@rightrule,-\boite@bottomrule)$)
-        [sharp corners] |-
-          ($(s.north west)-(\boite@leftrule,0pt)$);
-      \node[name=u,inner sep=0pt,outer sep=0pt,anchor=south] at (s.south)
-        {\box\bk@bxa};
-'     \path[fill=\boite@colframe]
-        [rounded corners=\boite@arc]
-          (u.north west) |- (u.south east)
-        [sharp corners]
-          |- ($(u.north east)+(\boite@rightrule,0)$)
-        [rounded corners=\boite@outer@arc]
-          |- ($(u.south west)-(\boite@leftrule,\boite@bottomrule)$)
-        [sharp corners]
-          |- (u.north west);
-    \end{tikzpicture}%
-    \hskip\boite@rightmargin
+    \hbox to \linewidth{%
+      \hskip\boite@leftmargin
+      \begin{pgfpicture}%
+        \pgfsetfillcolor{\boite@colframe}
+        \pgfpathrectangle
+          {\pgfpointorigin}
+          {\pgfpoint{-\boite@leftrule}{\ht\bk@bxa+\dp\bk@bxa}}
+        \pgfusepath{fill}
+        \pgfpathrectangle
+          {\pgfpoint{\wd\bk@bxa}{0pt}}
+          {\pgfpoint{\boite@rightrule}{\ht\bk@bxa+\dp\bk@bxa}}
+        \pgfusepath{fill}
+        \pgftext[left,bottom]{\box\bk@bxa}
+      \end{pgfpicture}%
+      \hskip\boite@rightmargin
+    }%
+  }%
+  % 
+  \def\bk@lastline{%
+    \setbox\bk@bxa \hbox{%
+      \fboxsep\z@
+      \colorbox{\boite@colback}{%
+        \hskip\boite@boxsep
+        \vbox{\color{\boite@coltext}{\box\bk@bxa}\vskip\boite@boxsep}%
+        \hskip\boite@boxsep
+      }%
+    }%
+    \hbox to \linewidth{%
+      \w@bxa\wd\bk@bxa
+      \h@bxa\ht\bk@bxa
+      \advance\h@bxa\dp\bk@bxa
+      \hskip\boite@leftmargin
+      \begin{pgfpicture}%
+        \pgfsetcornersarced{\pgfpoint{\boite@outer@arc}{\boite@outer@arc}}
+        \pgfpathmoveto{\pgfpoint{-\boite@leftrule}{\h@bxa}}
+        \pgfpathlineto{\pgfpoint{-\boite@leftrule}{-\boite@bottomrule}}
+        \pgfpathlineto{\pgfpoint{\w@bxa+\boite@rightrule}{-\boite@bottomrule}}
+        \pgfsetcornersarced{\pgfpointorigin}
+        \pgfpathlineto{\pgfpoint{\w@bxa+\boite@rightrule}{\h@bxa}}
+        \pgfpathlineto{\pgfpoint{\w@bxa}{\h@bxa}}
+        \pgfsetcornersarced{\pgfpoint{\boite@arc}{\boite@arc}}        
+        \pgfpathlineto{\pgfpoint{\w@bxa}{0pt}}
+        \pgfpathlineto{\pgfpoint{0pt}{0pt}}
+        \pgfsetcornersarced{\pgfpointorigin}
+        \pgfpathlineto{\pgfpoint{0pt}{\h@bxa}}
+        \pgfpathclose
+        \pgfsetfillcolor{\boite@colframe}
+        \pgfusepath{fill}
+        % 
+        \pgfsetcornersarced{\pgfpoint{\boite@arc}{\boite@arc}}
+        \pgfpathmoveto{\pgfpoint{0pt}{\ht\bk@bxa+\dp\bk@bxa}}
+        \pgfpathlineto{\pgfpointorigin}
+        \pgfpathlineto{\pgfpoint{\wd\bk@bxa}{0pt}}
+        \pgfsetcornersarced{\pgfpointorigin}
+        \pgfpathlineto{\pgfpoint{\wd\bk@bxa}{\ht\bk@bxa+\dp\bk@bxa}}
+        \pgfpathclose
+        \pgfusepath{clip}
+        \pgftext[left,bottom]{\box\bk@bxa}
+      \end{pgfpicture}%
+      \hskip\boite@rightmargin
+    }%
   }%
   %
   \ifdefined \boite@title
     \setbox\bk@bxc \vbox{%
-        \bkvz@set@linewidth
-        \hsize\linewidth
-        \boite@fonttitle \boite@title
-      }%
+      \bkvz@set@linewidth
+      \hsize\linewidth
+      \noindent
+      \begin{pgfpicture}%
+        \pgfset{inner sep=\boite@boxsep,outer sep=0pt}
+        \pgfsetfillcolor{\boite@colbacktitle}
+        \pgfnode
+          {rectangle}
+          {south west}
+          {\vbox{\noindent\color{\boite@coltitle}{\boite@fonttitle\boite@title}}}
+          {x}
+          {\pgfusepath{fill}}
+        % 
+        \pgfpathrectangle
+          {\pgfpointanchor{x}{south west}}
+          {\pgfpointadd
+            {\pgfpointdiff{\pgfpointanchor{x}{west}\pgfpointanchor{x}{east}}}
+            {\pgfpoint{0pt}{-\boite@titlerule}}}
+        \pgfsetfillcolor{\boite@colframe}
+        \pgfusepath{fill}
+      \end{pgfpicture}%
+    }%
   \fi
   \boite@font
   \breakbox
